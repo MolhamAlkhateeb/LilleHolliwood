@@ -1,0 +1,54 @@
+﻿@model  LilleHaboov.Models.HomePageViewModel
+
+
+
+
+<div id="carousel-wrapper" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < Model.AdminPanel.CarouselImages.Count(); i++)
+        {
+            <li data-target="#carousel-wrapper" data-slide-to="@i" @( i == 0 ? "class=\"active\"" : "")></li>
+
+        }
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        @for (int i = 0; i < Model.AdminPanel.CarouselImages.Count(); i++)
+        {
+            <div class="item @(i == 0 ? "active" : "")">
+                <img class="img-responsive carousel-img" src="@Model.AdminPanel.CarouselImages.AsEnumerable().ElementAt(i).Url">
+            </div>
+
+        }
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-wrapper" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="catagories-menu">
+    @foreach (var item in Model.Catagories)
+    {
+        @Ajax.ActionLink(item.Name, "GetProducts", new { catagoryId = item.Id }, new AjaxOptions()
+   {
+       InsertionMode = InsertionMode.Replace,
+       UpdateTargetId = "products-container", 
+   }, new { @class="btn btn-primary" })
+        @*<button class="btn btn-primary" type="button">@item.Name</button>*@
+    }
+</div>
+<style>
+    .product-card-container{width:@(100 / (Model.AdminPanel.ProductsInRow > 0 ? Model.AdminPanel.ProductsInRow : 1))%}
+</style>
+<div id="products-container" class="products-container">
+
+</div>

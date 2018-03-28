@@ -1,0 +1,16 @@
+﻿@model LilleHaboov.Models.Cart
+
+<h2>Cart</h2>
+
+
+<div>
+    @foreach (var item in Model.Products)
+    {
+        <p>@item.Name</p>
+    }
+
+    <br />
+    <p>Totall:    </p>
+    <h4>@Model.Products.Select(p => p.Price).Sum()</h4>
+</div>
+
