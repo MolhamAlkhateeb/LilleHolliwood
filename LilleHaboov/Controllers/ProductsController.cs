@@ -103,7 +103,7 @@ namespace LilleHaboov.Controllers
             {
                 //db.Entry(product).State = EntityState.Modified;
                 //db.SaveChanges();
-
+                //ss
                 var prod = db.Products.Find(product.Id);
                 prod.Catagories.Clear();
                 foreach (var item in selectedCatagories.Split(','))
