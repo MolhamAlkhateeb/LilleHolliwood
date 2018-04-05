@@ -75,6 +75,21 @@
         </div>
     </div>
 
+    <div class="form-group form-inline">
+        <label class="control-label col-md-2">New Image</label>
+        <div class="col-md-10">
+            <input id="imagesMenu" type="text" class="form-control" name="Images" />
+            <button id="AddImage" type="button" class="btn btn-primary">+</button>
+        </div>
+    </div>
+
+    <div class="form-group form-inline">
+        @Html.LabelFor(model => model.Product.Images, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10 tagsinput-singleLine">
+            <input id="selectedImages" name="selectedImages" class="form-control" />
+        </div>
+    </div>
+
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -99,11 +114,28 @@
             itemText: 'label'
         });
 
+        $("#selectedImages").tagsinput({
+            allowDuplicates: true,
+            freeInput: false,
+        });
+
         $("#AddCatagory").click(function () {
 
             $("#selectedCatagories").tagsinput("add", { id: $("#catagoriesMenu > :selected").val(), label: $("#catagoriesMenu > :selected").text() });
 
         });
+
+        $("#AddImage").click(function () {
+            if ($("#imagesMenu").val().indexOf(",") > -1) {
+                $("#imagesMenu")[0].setCustomValidity('Comma (,) is not allowed');
+                $("#imagesMenu")[0].reportValidity();
+            } else {
+                $("#selectedImages").tagsinput("add", $("#imagesMenu").val());
+                $("#imagesMenu").val("");
+                $("#imagesMenu")[0].setCustomValidity('');
+            }
+        });
+
 
     })
 </script>

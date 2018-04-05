@@ -17,7 +17,7 @@ namespace LilleHaboov.Models
             return userIdentity;
         }
 
-        public virtual Cart Cart { get; set; }
+        public virtual Cart Cart { get; set; } = new Cart();
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

@@ -1,9 +1,17 @@
-﻿@model ICollection<LilleHaboov.Models.Product>
+﻿@model IEnumerable<LilleHaboov.Models.Product>
 
 @foreach (var item in Model)
 {
-    <div class="product-card-container" style="border:1px solid black">
-
-        @item.Name sadasd
+    <div class="product-card-container" data-id="@item.Id">
+        @*<h4>ID: @item.Id</h4>*@
+        <div class="product-image-container">
+            <img src="@(item.Images.Count() > 0 ? item.Images.FirstOrDefault().Url : "" )" />
+        </div>
+        <div class="product-name">
+            <h5>@item.Name</h5>
+        </div>
+        <div class="product-description">
+            <p>@item.Description</p>
+        </div>
     </div>
 }

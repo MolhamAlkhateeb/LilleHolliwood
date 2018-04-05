@@ -373,25 +373,25 @@
         }
 
         switch (event.which) {
-          // BACKSPACE
-          case 8:
-            if (doGetCaretPosition($input[0]) === 0) {
-              var prev = $inputWrapper.prev();
-              if (prev.length) {
-                self.remove(prev.data('item'));
-              }
-            }
-            break;
+          //// BACKSPACE
+          //case 8:
+          //  if (doGetCaretPosition($input[0]) === 0) {
+          //    var prev = $inputWrapper.prev();
+          //    if (prev.length) {
+          //      self.remove(prev.data('item'));
+          //    }
+          //  }
+          //  break;
 
-          // DELETE
-          case 46:
-            if (doGetCaretPosition($input[0]) === 0) {
-              var next = $inputWrapper.next();
-              if (next.length) {
-                self.remove(next.data('item'));
-              }
-            }
-            break;
+          //// DELETE
+          //case 46:
+          //  if (doGetCaretPosition($input[0]) === 0) {
+          //    var next = $inputWrapper.next();
+          //    if (next.length) {
+          //      self.remove(next.data('item'));
+          //    }
+          //  }
+          //  break;
 
           // LEFT ARROW
           case 37:

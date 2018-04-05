@@ -16,7 +16,8 @@ namespace LilleHaboov.Controllers
         public ActionResult Index()
         {
             var userID = User.Identity.GetUserId();
-            var cart = userID != null ? db.Users.Find(userID).Cart : new Cart();
+            var currentUser = db.Users.Find(userID);
+            var cart = currentUser != null && currentUser.Cart != null ? currentUser.Cart : new Cart();
             var catagories = db.Catagories.ToList();
             var panel = db.AdminPanels.FirstOrDefault();
             var model = new HomePageViewModel() { Catagories = catagories, AdminPanel = panel };
@@ -37,9 +38,16 @@ namespace LilleHaboov.Controllers
             return View();
         }
 
-        public ActionResult GetProducts(int catagoryId)
+        public ActionResult GetProducts(int catagoryId, int loaded = 0, int quantity = 10, string keywords = "")
         {
-            var model = db.Catagories.Where(c => c.Id == catagoryId).FirstOrDefault().Products;
+            var model = db.Catagories
+                .Where(c => c.Id == catagoryId)
+                .FirstOrDefault()
+                .Products
+                .OrderBy(p => p.Id)
+                .Where(p => keywords != "" ? keywords.ToLower().Split(' ').Contains(p.Name.ToLower()) : true)
+                .Skip(loaded)
+                .Take(quantity);
             return PartialView("_Products", model);
         }
 
@@ -48,8 +56,9 @@ namespace LilleHaboov.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var userID = User.Identity.GetUserId();
-                var cart = db.Users.Find(userID).Cart;
-                return cart != null ? cart.Products.Count().ToString() : 0.ToString();
+                var currentUser = db.Users.Find(userID);
+                var cart = currentUser != null && currentUser.Cart != null ? db.Users.Find(userID).Cart : new Models.Cart();
+                return cart.Products != null ? cart.Products.Count().ToString() : 0.ToString();
             }
             return "0";
         }
@@ -58,7 +67,7 @@ namespace LilleHaboov.Controllers
         {
             var userId = User.Identity.GetUserId();
             var model = User.Identity.IsAuthenticated ? db.Users.Find(userId).Cart : new Cart();
-
+            
             return View(model);
         }
     }

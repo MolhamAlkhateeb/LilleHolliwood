@@ -33,21 +33,55 @@ textarea {
     }
 
 .carousel-img {
-    margin: auto;
-    max-height: 100%;
-    max-width: 100%;
-    height: auto;
-    width: auto;
+    width: 100%;
+    height: 100% !important;
+    object-fit: contain;
 }
 
 .products-container {
-    display: flex;
-    justify-content: space-between;
     margin-top: 20px;
+    min-height: 50vh;
+    position: relative;
+}
+
+#products-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
 }
 
 .product-card-container {
     padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+    .product-card-container:hover {
+        -webkit-box-shadow: -2px 4px 19px -2px rgba(143,143,143,1);
+        -moz-box-shadow: -2px 4px 19px -2px rgba(143,143,143,1);
+        box-shadow: -2px 4px 19px -2px rgba(143,143,143,1);
+    }
+
+.product-image-container {
+    height: 70%;
+    display: flex;
+    align-items: center;
+}
+
+    .product-image-container > img {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+    }
+
+.product-name > h5, .product-description > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .catagories-menu {
@@ -65,15 +99,64 @@ textarea {
     align-items: center;
 }
 
-.shoppingt-cart {
+.shopping-cart {
     font-size: large;
 }
 
-.shoppingt-cart-badge {
+.shopping-cart-badge {
     position: absolute;
     z-index: 10;
     left: 0;
     top: 25%;
     background-color: crimson;
     margin: auto;
+}
+
+.search-bar-container {
+    display: flex;
+    margin-left: auto;
+    padding: 5px;
+}
+
+.search-bar {
+    max-width: none !important;
+    width: 100%;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: unset !important;
+}
+
+.btn-search {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+    .btn-search:focus {
+        outline: 0;
+    }
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

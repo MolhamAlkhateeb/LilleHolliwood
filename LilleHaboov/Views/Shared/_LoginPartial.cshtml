@@ -12,7 +12,7 @@
                     {
                         <span class="shoppingt-cart-badge badge">@(Html.Action("GetItems"))</span>
                     }
-                    <span class="glyphicon glyphicon-shopping-cart shoppingt-cart" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-shopping-cart shopping-cart" aria-hidden="true"></span>
                 </a>
             </li>
             <li>
@@ -27,7 +27,7 @@ else
     <ul class="nav navbar-nav navbar-right">
         <li>
             <a href="@Url.Action("Cart", "Home")" class="shopping-cart-container">
-                @if (Html.Action("GetCartCount").ToString() != "0")
+                @if (Html.Action("GetCartCount", "Home").ToString() != "0")
                 {
                     <span class="shoppingt-cart-badge badge">@(Html.Action("GetItems"))</span>
                 }

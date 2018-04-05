@@ -39,16 +39,80 @@
     @foreach (var item in Model.Catagories)
     {
         @Ajax.ActionLink(item.Name, "GetProducts", new { catagoryId = item.Id }, new AjaxOptions()
-   {
-       InsertionMode = InsertionMode.Replace,
-       UpdateTargetId = "products-container", 
-   }, new { @class="btn btn-primary" })
-        @*<button class="btn btn-primary" type="button">@item.Name</button>*@
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "products-list",
+            OnComplete = "SetSelectedCatagory",
+            LoadingElementId = "loader",
+        }, new { @class = "btn btn-primary btn-catagory", @dataid = item.Id })
     }
+    <div class="search-bar-container col-md-6">
+        <input type="search" class="form-control search-bar" placeholder="Search..." />
+        <button type="button" onclick="getProductsSearch()" class="btn btn-primary btn-search"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
 </div>
 <style>
     .product-card-container{width:@(100 / (Model.AdminPanel.ProductsInRow > 0 ? Model.AdminPanel.ProductsInRow : 1))%}
 </style>
 <div id="products-container" class="products-container">
+    <div id="products-list">
 
+    </div>
+    <div id="loader" class="loader">
+
+    </div>
 </div>
+
+<script>
+    function SetSelectedCatagory() {
+        $(".btn-catagory.selected").removeClass("selected");
+        $(this).addClass("selected");
+    }
+    var isLoadingData = false;
+    var baseUrl = "Home/GetProducts?";
+    function getProducts(options, callback) {
+        var catagoryId = $(".btn-catagory.selected").attr("dataid");
+        var url = baseUrl + "catagoryId=" + catagoryId;
+        for (var key in options) {
+            url += "&" + key + "=" + options[key];
+        }
+        isLoadingData = true;
+        $("#loader").show();
+        $.get(url, (data) => {
+            $("#loader").hide();
+            isLoadingData = false;
+            callback(data);
+        });
+    }
+
+    function getProductsSearch() {
+        var keywords = $(".search-bar").val();
+        getProducts({ keywords: keywords }, (data) => {
+            $("#products-list").empty().append(data);
+        });
+    }
+
+    $(window).on("scroll", function () {
+        var scrollPos = $(window).scrollTop();
+        var pageStrech = $(document).innerHeight() - $(window).innerHeight();
+        const within = 20;
+        var isScrollBottom = scrollPos + within > pageStrech;
+        if (isScrollBottom && !isLoadingData) {
+            //var lastID = Math.max.apply(Math, $("#products-container").children(".product-card-container").map((index, el) => $(el).data("id")));
+            var loaded = $("#products-list").children(".product-card-container").length;
+            isLoadingData = true;
+            getProducts({ loaded: loaded }, (data) => {
+                $("#products-list").append(data);
+            });
+        }
+    });
+
+    $(document).ready(() => {
+        $(".btn-catagory").first().click();
+        $(".search-bar").keyup((e) => {
+            if (e.keyCode === 13) {
+                $(".btn-search").click();
+            }
+        });
+    })
+</script>
